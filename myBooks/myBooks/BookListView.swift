@@ -6,18 +6,41 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookListView: View {
+    // to access to all books create a Query macros
+    @Query(sort: \Book.title) private var books: [Book]
     // we need to present a sheet (NewBookView) on tap on + button
     @State private var createNewBook = false
     var body: some View {
         NavigationStack {
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("Hello, world!")
+            // replace VStack with the List
+            List {
+                ForEach(books) { book in
+                    NavigationLink {
+                        Text(book.title)
+                    } label: {
+                        HStack(spacing: 10) {
+                            book.icon
+                            VStack(alignment: .leading) {
+                                Text(book.title).font(.title2)
+                                Text(book.author).foregroundStyle(.secondary)
+                                if let rating = book.rating {
+                                    HStack {
+                                        ForEach(0..<rating, id: \.self) { _ in
+                                            Image(systemName: "star.fill")
+                                                .imageScale(.small)
+                                                .foregroundStyle(.yellow)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            .listStyle(.plain)
             .padding()
             .navigationTitle("My Books")
             .toolbar {
@@ -39,4 +62,5 @@ struct BookListView: View {
 
 #Preview {
     BookListView()
+        .modelContainer(for: Book.self, inMemory: true)
 }

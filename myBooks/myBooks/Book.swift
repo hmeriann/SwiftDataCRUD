@@ -5,7 +5,7 @@
 //  Created by Zuleykha Pavlichenkova on 27.01.2024.
 //
 
-import Foundation
+import SwiftUI
 import SwiftData
 
 @Model
@@ -37,6 +37,18 @@ class Book {
         self.summary = summary
         self.rating = rating
         self.status = status
+    }
+    
+    // add computed property to show the icon for different status
+    var icon: Image {
+        switch status {
+        case .onShelf:
+            Image(systemName: "checkmark.diamond.fill")
+        case .inProgress:
+            Image(systemName: "book.fill")
+        case .completed:
+            Image(systemName: "books.vertical.fill")
+        }
     }
 }
 
