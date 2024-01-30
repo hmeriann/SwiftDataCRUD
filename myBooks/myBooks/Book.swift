@@ -39,7 +39,7 @@ class Book {
         self.status = status
     }
     
-    // add computed property to show the icon for different status
+    // add computed property to show the icon for reading status
     var icon: Image {
         switch status {
         case .onShelf:

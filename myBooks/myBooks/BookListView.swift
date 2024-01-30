@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct BookListView: View {
+    // to Delete from the DB we need the access to the context, so we add the env property and assign it to a variable context. We will use this variable to delete that book in .onDelete function
+    @Environment(\.modelContext) private var context
     // to access to all books create a Query macros
     @Query(sort: \Book.title) private var books: [Book]
     // we need to present a sheet (NewBookView) on tap on + button
@@ -22,7 +24,7 @@ struct BookListView: View {
                         systemImage: "book.fill"
                     )
                 } else {
-                    // replace VStack with the List
+                    // VStack replaced with the List
                     List {
                         ForEach(books) { book in
                             NavigationLink {
@@ -44,6 +46,13 @@ struct BookListView: View {
                                         }
                                     }
                                 }
+                            }
+                        }
+                        // since we use ForEach loop, we can use the .onDelete function. It gives us aaccess to the indexSet that we swipe on
+                        .onDelete { indexSet in
+                            indexSet.forEach { index in
+                                let book = books[index]
+                                context.delete(book)
                             }
                         }
                     }
