@@ -14,10 +14,12 @@ struct myBooksApp: App {
         WindowGroup {
             BookListView()
         }
+        // a SwiftData method to access the model container
         .modelContainer(for: Book.self)
     }
     
     init() {
+        // prints a path where the model is stored (a place where to find a default.store file)
         print(URL.applicationSupportDirectory.path(percentEncoded: false))
     }
 }

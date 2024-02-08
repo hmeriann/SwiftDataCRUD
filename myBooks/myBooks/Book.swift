@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+// @Model - makes it a SwiftData object
 @Model
 class Book {
     var title: String
